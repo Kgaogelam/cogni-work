@@ -45,8 +45,9 @@ function EmailPage() {
   const [output, setOutput] = useState("");
 
   const fn = useServerFn(generateEmail);
-  const { run, isLoading, error, setError } = useAiTask((data: Parameters<typeof fn>[0]["data"]) =>
-    fn({ data }),
+  const { run, isLoading, error, setError } = useAiTask(
+    (data: { purpose: string; recipient: string; subject: string; tone: string; context: string }) =>
+      fn({ data }),
   );
 
   const generate = async () => {
