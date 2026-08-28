@@ -27,7 +27,7 @@ export const NAV_ITEMS = [
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
-function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+function NavLinks({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   return (
     <nav aria-label="Main navigation" className="flex flex-1 flex-col gap-1 px-3">
       {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
@@ -88,7 +88,7 @@ function ProfileArea() {
   );
 }
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarContent({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   return (
     <div className="flex h-full flex-col bg-sidebar">
       <Brand />
