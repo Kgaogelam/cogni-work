@@ -124,9 +124,9 @@ export function AiOutputPanel({
 
       <div className="space-y-4 px-4 py-5 sm:px-5">
         {isLoading ? (
-          <AiLoading label={loadingLabel} />
+          <AiLoading label={loadingLabel ?? undefined} />
         ) : error ? (
-          <AiErrorMessage message={error} onRetry={onRegenerate} />
+          <AiErrorMessage message={error} onRetry={onRegenerate ?? undefined} />
         ) : hasContent ? (
           <>
             {editing ? (
