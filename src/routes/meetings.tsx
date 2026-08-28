@@ -44,7 +44,7 @@ Next sync same time next week. Budget sign-off deadline is the 20th.`;
 function parseActionItems(markdown: string) {
   const section = markdown.split(/##\s*Action Items/i)[1];
   if (!section) return [];
-  const body = section.split(/\n##\s/)[0];
+  const body = section.split(/\n##\s/)[0] ?? "";
   const items: Array<{ title: string; deadline: string; priority: Priority }> = [];
 
   body.split("\n").forEach((line) => {
@@ -53,7 +53,8 @@ function parseActionItems(markdown: string) {
     const content = trimmed.replace(/^[-*•]\s*|^\d+\.\s*/, "");
     if (!content) return;
     const titleMatch = content.match(/\*\*(.+?)\*\*/);
-    const title = (titleMatch ? titleMatch[1] : content.split(/—|\||-\s/)[0]).trim();
+    const rawTitle = titleMatch?.[1]?.trim() ?? content.split(/—|\||-\s/)[0] ?? "";
+    const title = rawTitle.trim();
     if (!title || /^not specified$/i.test(title)) return;
     const deadlineMatch = content.match(/Deadline:\s*([^|]+)/i);
     const priorityMatch = content.match(/Priority:\s*(High|Medium|Low)/i);

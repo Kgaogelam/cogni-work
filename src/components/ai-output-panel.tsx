@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 
-export function AiLoading({ label = "Generating with AI…" }: { label?: string }) {
+export function AiLoading({ label = "Generating with AI…" }: { label?: string | undefined }) {
   return (
     <div className="space-y-3" role="status" aria-live="polite">
       <p className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -23,7 +23,7 @@ export function AiLoading({ label = "Generating with AI…" }: { label?: string 
   );
 }
 
-export function AiErrorMessage({ message, onRetry }: { message: string; onRetry?: () => void }) {
+export function AiErrorMessage({ message, onRetry }: { message: string; onRetry?: (() => void) | undefined }) {
   return (
     <div
       role="alert"
