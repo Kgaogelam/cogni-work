@@ -232,8 +232,7 @@ function AssistantPage() {
       toast.error("No action items were found in the plan.");
       return;
     }
-    const before = new Set(tasks.map((t) => t.id));
-    actions.addTasks(
+    const ids = actions.addTasks(
       items.map((item) => ({
         title: item.title,
         deadline: item.deadline,
@@ -242,12 +241,7 @@ function AssistantPage() {
         status: "Not Started" as const,
       })),
     );
-    // Newly created tasks are the ones not present before this call.
-    setTimeout(() => {
-      const created = actions.__none;
-      void created;
-    }, 0);
-    setTrackedIds((prev) => [...prev, ...Array.from(before).slice(0, 0)]);
+    setTrackedIds((prev) => [...prev, ...ids]);
     toast.success(`${items.length} task${items.length === 1 ? "" : "s"} now tracked`);
     actions.logActivity("plan", "Plan items moved into tracking");
   };
