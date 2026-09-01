@@ -84,3 +84,42 @@ export const chatWithAssistant = createServerFn({ method: "POST" })
     ]);
     return { text };
   });
+
+const UnderstandInput = z.object({
+  capture: z.string().min(1),
+  goal: z.string().default(""),
+});
+
+const PlanStepInput = z.object({
+  capture: z.string().min(1),
+  understanding: z.string().min(1),
+  goal: z.string().default(""),
+});
+
+const ActInput = z.object({
+  understanding: z.string().default(""),
+  plan: z.string().min(1),
+  actionType: z.string().default("Email"),
+  tone: z.string().default("Professional"),
+});
+
+export const understandCapture = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => UnderstandInput.parse(data))
+  .handler(async ({ data }) => {
+    const { understandPrompt } = await import("./prompts.server");
+    return run(async () => understandPrompt(data));
+  });
+
+export const planFromUnderstanding = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => PlanStepInput.parse(data))
+  .handler(async ({ data }) => {
+    const { planPrompt } = await import("./prompts.server");
+    return run(async () => planPrompt(data));
+  });
+
+export const draftAction = createServerFn({ method: "POST" })
+  .inputValidator((data: unknown) => ActInput.parse(data))
+  .handler(async ({ data }) => {
+    const { actPrompt } = await import("./prompts.server");
+    return run(async () => actPrompt(data));
+  });

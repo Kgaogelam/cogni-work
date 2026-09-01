@@ -186,10 +186,9 @@ export const actions = {
     set((s) => ({ ...s, tasks: [{ ...task, id: uid(), createdAt: Date.now() }, ...s.tasks] }));
   },
   addTasks(tasks: Array<Omit<Task, "id" | "createdAt">>) {
-    set((s) => ({
-      ...s,
-      tasks: [...tasks.map((t) => ({ ...t, id: uid(), createdAt: Date.now() })), ...s.tasks],
-    }));
+    const created = tasks.map((t) => ({ ...t, id: uid(), createdAt: Date.now() }));
+    set((s) => ({ ...s, tasks: [...created, ...s.tasks] }));
+    return created.map((t) => t.id);
   },
   updateTask(id: string, patch: Partial<Task>) {
     set((s) => ({ ...s, tasks: s.tasks.map((t) => (t.id === id ? { ...t, ...patch } : t)) }));
