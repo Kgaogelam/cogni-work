@@ -16,11 +16,13 @@ export function ThemeSync() {
       const dark = theme === "dark" || (theme === "system" && media.matches);
       root.classList.toggle("dark", dark);
     };
+    const cleanup = () => {
+      media.removeEventListener("change", apply);
+    };
     apply();
-    if (theme === "system") {
-      media.addEventListener("change", apply);
-      return () => media.removeEventListener("change", apply);
-    }
+    if (theme !== "system") return cleanup;
+    media.addEventListener("change", apply);
+    return cleanup;
   }, [theme]);
 
   return null;
