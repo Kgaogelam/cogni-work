@@ -30,9 +30,12 @@ export type SavedItem = {
   at: number;
 };
 
+export type ThemePreference = "light" | "dark" | "system";
+
 export type Settings = {
   name: string;
   role: string;
+  theme: ThemePreference;
   defaultTone: string;
   defaultDepth: string;
   showDisclaimers: boolean;
@@ -114,6 +117,7 @@ function seed(): AppState {
     settings: {
       name: "Kgaogelo",
       role: "Product Manager",
+      theme: "system",
       defaultTone: "Professional",
       defaultDepth: "Standard",
       showDisclaimers: true,
@@ -172,6 +176,10 @@ function set(updater: (prev: AppState) => AppState) {
 }
 
 const serverSnapshot = seed();
+
+export function getState(): AppState {
+  return state;
+}
 
 export function useAppState<T>(selector: (s: AppState) => T): T {
   return useSyncExternalStore(
