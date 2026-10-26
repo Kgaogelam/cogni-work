@@ -16,7 +16,8 @@ import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { EmptyState } from "@/components/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { timeAgo, useAppState, type Task } from "@/lib/store";
+import { TimeAgo } from "@/components/time-ago";
+import { useAppState, type Task } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -198,7 +199,7 @@ function Dashboard() {
                   <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-sm">{item.label}</span>
-                    <span className="block text-xs text-muted-foreground">{timeAgo(item.at)}</span>
+                    <span className="block text-xs text-muted-foreground"><TimeAgo at={item.at} /></span>
                   </span>
                 </li>
               ))}
